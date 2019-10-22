@@ -3,8 +3,9 @@ import { WebDAVServerStartCallback } from './WebDAVServer'
 import { Errors } from '../../../Errors'
 import * as https from 'https'
 import * as http from 'http'
+import * as customHttp from '../customIncomingMessage';
 
-export function executeRequest(req : http.IncomingMessage, res : http.ServerResponse, rootPath ?: string) : void
+export function executeRequest(req : customHttp.customIncomingMessage, res : http.ServerResponse, rootPath ?: string) : void
 {
     let method : HTTPMethod = this.methods[this.normalizeMethodName(req.method)];
     if(!method)

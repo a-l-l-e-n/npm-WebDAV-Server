@@ -10,6 +10,7 @@ import { Errors } from '../../Errors'
 import { IUser } from '../../user/v2/IUser'
 import * as http from 'http'
 import * as url from 'url'
+import * as customHttp from './customIncomingMessage';
 
 export class RequestContextHeaders
 {
@@ -208,13 +209,13 @@ export class ExternalRequestContext extends RequestContext
 export class HTTPRequestContext extends RequestContext
 {
     responseBody : string
-    request : http.IncomingMessage
+    request : customHttp.customIncomingMessage//http.IncomingMessage
     response : http.ServerResponse
     exit : () => void
 
     protected constructor(
         server : WebDAVServer,
-        request : http.IncomingMessage,
+        request : customHttp.customIncomingMessage,//http.IncomingMessage,
         response : http.ServerResponse,
         exit : () => void,
         rootPath ?: string
@@ -227,9 +228,9 @@ export class HTTPRequestContext extends RequestContext
         this.exit = exit;
     }
 
-    static create(server : WebDAVServer, request : http.IncomingMessage, response : http.ServerResponse, callback : (error : Error, ctx : HTTPRequestContext) => void) : void
-    static create(server : WebDAVServer, request : http.IncomingMessage, response : http.ServerResponse, rootPath : string, callback : (error : Error, ctx : HTTPRequestContext) => void) : void
-    static create(server : WebDAVServer, request : http.IncomingMessage, response : http.ServerResponse, _rootPath : string | ((error : Error, ctx : HTTPRequestContext) => void), _callback ?: (error : Error, ctx : HTTPRequestContext) => void) : void
+    static create(server : WebDAVServer, request : customHttp.customIncomingMessage, response : http.ServerResponse, callback : (error : Error, ctx : HTTPRequestContext) => void) : void
+    static create(server : WebDAVServer, request : customHttp.customIncomingMessage, response : http.ServerResponse, rootPath : string, callback : (error : Error, ctx : HTTPRequestContext) => void) : void
+    static create(server : WebDAVServer, request : customHttp.customIncomingMessage, response : http.ServerResponse, _rootPath : string | ((error : Error, ctx : HTTPRequestContext) => void), _callback ?: (error : Error, ctx : HTTPRequestContext) => void) : void
     {
         const rootPath = _callback ? _rootPath as string : undefined;
         const callback = _callback ? _callback : _rootPath as ((error : Error, ctx : HTTPRequestContext) => void);

@@ -8,7 +8,8 @@ export class SimpleUser implements IUser
         public username : string,
         public password : string,
         public isAdministrator : boolean,
-        public isDefaultUser : boolean
+        public isDefaultUser : boolean,
+        public passwordIsValid ?: boolean
     )
     {
         this.uid = username;

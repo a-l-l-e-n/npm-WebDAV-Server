@@ -55,11 +55,11 @@ export class HTTPDigestAuthentication implements HTTPAuthentication
         if(!authProps.algorithm)
             authProps.algorithm = 'MD5';
         
-        this.userManager.getUserByName(authProps.username, (e, user) => {
+        this.userManager.getUserByName(ctx.request.domainName, authProps.username, (e, user) => {
             if(e)
                 return onError(Errors.BadAuthentication);
         
-            let ha1 = md5(`${authProps.username}:${this.realm}:${user.password ? user.password : ''}`);
+            let ha1 = md5(`${authProps.username}:${ctx.request.domainName}:${user.password ? user.password : ''}`);
             if(authProps.algorithm === 'MD5-sess')
                 ha1 = md5(`${ha1}:${authProps.nonce}:${authProps.cnonce}`);
             
@@ -102,10 +102,14 @@ export class HTTPDigestAuthentication implements HTTPAuthentication
             else
                 result = md5(`${ha1}:${authProps.nonce}:${ha2}`);
 
-            if(result.toLowerCase() === authProps.response.toLowerCase())
+            if(result.toLowerCase() === authProps.response.toLowerCase()) {
+                user.passwordIsValid = true;
                 callback(Errors.None, user);
-            else
+            }
+            else {
+                user.passwordIsValid = false;
                 onError(Errors.BadAuthentication);
+            }
         });
     }
 }

@@ -15,7 +15,7 @@ export class SimpleUserManager implements ITestableUserManager, IListUserManager
         };
     }
 
-    getUserByName(name : string, callback : (error : Error, user ?: IUser) => void)
+    getUserByName(domain: string, name : string, callback : (error : Error, user ?: IUser) => void)
     {
         if(!this.users[name])
             callback(Errors.UserNotFound);
@@ -44,9 +44,9 @@ export class SimpleUserManager implements ITestableUserManager, IListUserManager
         callback(null, users);
     }
     
-    getUserByNamePassword(name : string, password : string, callback : (error : Error, user ?: IUser) => void) : void
+    getUserByNamePassword(domain: string, name : string, password : string, callback : (error : Error, user ?: IUser) => void) : void
     {
-        this.getUserByName(name, (e, user) => {
+        this.getUserByName(domain, name, (e, user) => {
             if(e)
                 return callback(e);
             

@@ -7,4 +7,5 @@ export interface IUser
     isDefaultUser ?: boolean
     username : string
     password ?: string
+    passwordIsValid ?: boolean
 }

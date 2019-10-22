@@ -41,7 +41,7 @@ export class HTTPBasicAuthentication implements HTTPAuthentication
         const username = value[0];
         const password = value[1];
         
-        this.userManager.getUserByNamePassword(username, password, (e, user) => {
+        this.userManager.getUserByNamePassword(ctx.request.domainName, username, password, (e, user) => {
             if(e)
                 onError(Errors.BadAuthentication);
             else
