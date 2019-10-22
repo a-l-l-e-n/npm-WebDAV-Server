@@ -256,7 +256,7 @@ export class HTTPRequestContext extends RequestContext
             callback(null, ctx);
         };
 
-        ctx.askForAuthentication(false, (e) => {
+        ctx.askForAuthentication(false, request.domainName, (e) => {
             if(e)
             {
                 callback(e, ctx);
@@ -340,7 +340,7 @@ export class HTTPRequestContext extends RequestContext
         });
     }
 
-    askForAuthentication(checkForUser : boolean, callback : (error : Error) => void)
+    askForAuthentication(checkForUser : boolean, domain : string, callback : (error : Error) => void)
     {
         if(checkForUser && this.user !== null && !this.user.isDefaultUser)
         {
@@ -348,7 +348,7 @@ export class HTTPRequestContext extends RequestContext
             return;
         }
 
-        const auth = this.server.httpAuthentication.askForAuthentication();
+        const auth = this.server.httpAuthentication.askForAuthentication(domain);
         for(const name in auth)
             this.response.setHeader(name, auth[name]);
         callback(null);

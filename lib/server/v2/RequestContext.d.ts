@@ -74,7 +74,7 @@ export declare class HTTPRequestContext extends RequestContext {
     noBodyExpected(callback: () => void): void;
     checkIfHeader(resource: Resource, callback: () => void): any;
     checkIfHeader(fs: FileSystem, path: Path, callback: () => void): any;
-    askForAuthentication(checkForUser: boolean, callback: (error: Error) => void): void;
+    askForAuthentication(checkForUser: boolean, domain : string, callback: (error: Error) => void): void;
     writeBody(xmlObject: XMLElement | object): void;
     setCode(code: number, message?: string): void;
     protected static defaultErrorStatusCodes: {
